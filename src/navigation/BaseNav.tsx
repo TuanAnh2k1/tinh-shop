@@ -7,8 +7,13 @@ import AddMembers from '../screens/AddMembers/AddMembers';
 import Home from '../screens/Home/Home';
 import ProductsScreens from '../screens/ProductsScreens/ProductsScreen';
 import QRCodeInvite from '../screens/QrCode/QRCodeInvite';
+import AddShirt from '../screens/Shirt/AddShirt/AddShirt';
+import EmailShirt from '../screens/Shirt/EmailShirt/EmailShirt';
+import Shirt from '../screens/Shirt/Shirt';
+import ShirtDetail from '../screens/Shirt/ShirtDetail/ShirtDetail';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import Single from '../screens/Single/Single';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +44,31 @@ function StackNavigator() {
         options={{headerShown: false}}
         name="AddMembers"
         component={AddMembers}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Shirt"
+        component={Shirt}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="ShirtDetail"
+        component={ShirtDetail}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="EmailShirt"
+        component={EmailShirt}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="AddShirt"
+        component={AddShirt}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Single"
+        component={Single}
       />
       <Stack.Screen
         options={{headerShown: false}}

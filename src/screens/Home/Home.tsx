@@ -1,14 +1,29 @@
 import React from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = (props: {navigation: any}) => {
   const {navigation} = props;
+
+  const getDataUser = async () => {
+    try {
+      const value = await AsyncStorage.getItem('role');
+      if (value !== null) {
+        navigation.navigate('Shirt', {user: value});
+      } else {
+        navigation.navigate('SignIn');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Image
+      {/* <Image
         style={styles.imgWellcome}
         source={require('../../assets/wellcome.jpg')}
-      />
+      /> */}
       <View style={{flex: 1}}>
         <Text style={styles.text1}>APP UI KIT</Text>
         <Text style={styles.text2}>WELLCOME TO GEEZ APP</Text>
@@ -17,10 +32,7 @@ const Home = (props: {navigation: any}) => {
         </Text>
       </View>
       <View style={styles.btnStarted}>
-        <Button
-          title="GET STARTED"
-          onPress={() => navigation.navigate('SignIn')}
-        />
+        <Button title="GET STARTED" onPress={getDataUser} />
       </View>
     </View>
   );
