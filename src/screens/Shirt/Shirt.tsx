@@ -47,6 +47,7 @@ const Shirt = (props: {navigation: any}) => {
     const handleLogin = async () => {
       console.log('listShirt');
       setLoading(true);
+      setListShirt([]);
       await fetch('https://musicfivestar.onrender.com/shirt/getAllShirt', {
         method: 'GET',
       })
@@ -74,55 +75,94 @@ const Shirt = (props: {navigation: any}) => {
     getDataUserId();
   }, [props]);
 
+  useEffect(() => {
+    const handleSearch = async () => {
+      setLoading(true);
+      setListShirt([]);
+      await fetch(
+        'https://musicfivestar.onrender.com/shirt/getAllShirt/search',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            search: search,
+          }),
+        },
+      )
+        .then((response: any) => response.json())
+        .then((data: any) => {
+          // Xử lý phản hồi từ API
+          if (data.success) {
+            // Đăng nhập thành công
+            console.log('listShirtSearch', data.result);
+            setListShirt(data.result);
+            setLoading(false);
+          } else {
+            // Đăng nhập thất bại
+            console.log(data.error);
+            setLoading(false);
+          }
+        })
+        .catch((error: any) => {
+          console.error(error);
+          setLoading(false);
+        });
+    };
+    handleSearch();
+  }, [search]);
+
   return (
     <View style={styles.container}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <View style={styles.container}>
-          <NavBar
-            title={'List Shirt'}
-            style={{backgroundColor: GetColors().MAIN}}
-            titleStyle={{color: GetColors().WHITE}}
+      <View style={styles.container}>
+        <NavBar
+          title={'List Shirt'}
+          style={{backgroundColor: GetColors().MAIN}}
+          titleStyle={{color: GetColors().WHITE}}
+        />
+        <View style={styles.textInput}>
+          <TextInput
+            style={styles.inputContent}
+            placeholder="search"
+            placeholderTextColor="#000"
+            onChangeText={(text: string) => setSearch(text)}
           />
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputContent}
-              placeholder="search"
-              placeholderTextColor="#000"
-              onChangeText={(text: string) => setSearch(text)}
-            />
-            <Image
-              style={styles.iconInput}
-              source={require('../../assets/search.png')}
-            />
-          </View>
-          <View style={styles.content}>
-            {dataUser === 'admin' && (
-              <Pressable
-                style={styles.shirt}
-                onPress={() => {
-                  navigation.navigate('AddShirt');
-                }}>
-                <Text style={styles.addShirt}>+Add shirt</Text>
-              </Pressable>
-            )}
+          <Image
+            style={styles.iconInput}
+            source={require('../../assets/search.png')}
+          />
+        </View>
+        <View style={styles.content}>
+          {dataUser === 'admin' && (
             <Pressable
+              style={styles.shirt}
               onPress={() => {
-                navigation.navigate('Single', {
-                  dataUserId: dataUserId,
-                });
+                navigation.navigate('AddShirt');
               }}>
-              <Text style={styles.single}>Đơn hàng của tôi</Text>
+              <Text style={styles.addShirt}>+Add shirt</Text>
             </Pressable>
-          </View>
+          )}
           <Pressable
-            style={{paddingHorizontal: 8}}
             onPress={() => {
-              navigation.navigate('Card');
+              navigation.navigate('Single', {
+                dataUserId: dataUserId,
+              });
             }}>
-            <Text style={styles.addCard}>Tính phí du lịch qua thẻ</Text>
+            <Text style={styles.single}>Đơn hàng của tôi</Text>
           </Pressable>
+        </View>
+        {/* <Pressable
+          style={{paddingHorizontal: 8}}
+          onPress={() => {
+            navigation.navigate('Card');
+          }}>
+          <Text style={styles.addCard}>Tính phí du lịch qua thẻ</Text>
+        </Pressable> */}
+        {loading ? (
+          <Loading />
+        ) : (
           <ScrollView style={styles.listOptions}>
             {listShirt?.map(item => {
               return (
@@ -144,8 +184,8 @@ const Shirt = (props: {navigation: any}) => {
               );
             })}
           </ScrollView>
-        </View>
-      )}
+        )}
+      </View>
     </View>
   );
 };
