@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   Image,
@@ -11,12 +11,21 @@ import {
   View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignInScreen = (props: { navigation: any }) => {
-  const { navigation } = props;
+const SignInScreen = (props: {navigation: any}) => {
+  const {navigation} = props;
   const [isFocus, setIsFocus] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const storeData = async (key: string, value: string) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogin = () => {
     // Gửi thông tin đăng nhập đến API
@@ -53,7 +62,10 @@ const SignInScreen = (props: { navigation: any }) => {
             autoHide: true,
             topOffset: 30,
           });
-          navigation.navigate('AddMembers');
+          // Lưu thông tin đăng nhập
+          storeData('user', json.user._id);
+          storeData('role', json.user.role);
+          navigation.navigate('Shirt', {user: json.user.role});
         } else {
           // Đăng nhập thất bại
           console.log(json.error);
@@ -66,7 +78,7 @@ const SignInScreen = (props: { navigation: any }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.imgLogin} source={require('../assets/login.jpg')} />
+      {/* <Image style={styles.imgLogin} source={require('../assets/login.jpg')} /> */}
       <View style={styles.content}>
         <ScrollView>
           <Text style={styles.textLogin}>SIGN IN</Text>
@@ -112,7 +124,7 @@ const SignInScreen = (props: { navigation: any }) => {
           </View>
           <View style={styles.textInput}>
             <Text
-              style={{ paddingVertical: 24, marginLeft: '67%', color: 'white' }}>
+              style={{paddingVertical: 24, marginLeft: '67%', color: 'white'}}>
               Forgot Password?
             </Text>
           </View>
@@ -121,8 +133,8 @@ const SignInScreen = (props: { navigation: any }) => {
           <Button title="SignIn" color={'tomato'} onPress={handleLogin} />
         </KeyboardAvoidingView>
 
-        <View style={{ paddingTop: 16 }}>
-          <Text style={{ textAlign: 'center', color: 'white' }}>
+        <View style={{paddingTop: 16}}>
+          <Text style={{textAlign: 'center', color: 'white'}}>
             Or connect with
           </Text>
           <View style={styles.link}>
@@ -135,15 +147,15 @@ const SignInScreen = (props: { navigation: any }) => {
               source={require('../assets/google-plus.png')}
             />
             <Image
-              style={{ width: 38, height: 38 }}
+              style={{width: 38, height: 38}}
               source={require('../assets/twitter.png')}
             />
           </View>
         </View>
         <View style={styles.footer}>
-          <Text style={{ marginRight: 5 }}>Don't have an account?</Text>
+          <Text style={{marginRight: 5}}>Don't have an account?</Text>
           <Text
-            style={{ color: 'yellow' }}
+            style={{color: 'yellow'}}
             onPress={() => {
               navigation.navigate('SignUp');
             }}>
@@ -171,7 +183,7 @@ const styles = StyleSheet.create({
     marginTop: '30%',
     paddingHorizontal: 30,
   },
-  image: { width: 38, height: 38, marginRight: 14 },
+  image: {width: 38, height: 38, marginRight: 14},
   textLogin: {
     fontWeight: '700',
     fontSize: 36,

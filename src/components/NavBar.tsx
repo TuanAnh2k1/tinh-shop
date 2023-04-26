@@ -41,7 +41,7 @@ const NavBar = (props: Props) => {
           ]}>
           <Text style={[styles.title, props.titleStyle]}>{props.title}</Text>
         </View>
-        <View style={styles.backBtn} />
+        {props.onPressLeft && <View style={styles.backBtn} />}
       </View>
     </View>
   );
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
+    tintColor: GetColors().WHITE,
   },
   titleContainer: {
     flex: 1,
