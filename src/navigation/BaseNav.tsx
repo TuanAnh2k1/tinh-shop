@@ -15,6 +15,9 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import Single from '../screens/Single/Single';
 import Card from '../screens/Shirt/Card/Card';
+import Profile from '../screens/Profile/Profile';
+import UpdateProfile from '../screens/Profile/UpdateProfile';
+import CreateProfile from '../screens/Profile/CreateProfile';
 
 const Stack = createStackNavigator();
 
@@ -80,6 +83,21 @@ function StackNavigator() {
         options={{headerShown: false}}
         name="QRCodeInvite"
         component={QRCodeInvite}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Profile"
+        component={Profile}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="UpdateProfile"
+        component={UpdateProfile}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="CreateProfile"
+        component={CreateProfile}
       />
     </Stack.Navigator>
   );

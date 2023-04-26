@@ -6,15 +6,25 @@ export interface Props {
   name: string;
   describe: string;
   arrowRight: any;
-  image: any;
+  image: string;
   price: string;
   onPress(): void;
 }
 
 const ShirtItem = (props: Props) => {
+  console.log('11111111: ', props.image);
+
   return (
     <Pressable style={styles.container} onPress={props.onPress}>
-      <Image source={props.image} style={styles.image} />
+      {props.image === '1' ? (
+        <Image
+          source={require('../assets/ao_phong.jpg')}
+          style={styles.image}
+        />
+      ) : (
+        <Image source={require('../assets/ao_somi.jpg')} style={styles.image} />
+      )}
+
       <View style={styles.itemContainer}>
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.describe}>{props.describe}</Text>

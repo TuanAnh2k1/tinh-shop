@@ -1,15 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GetColors from '../../utils/CommonColors';
 
 const Home = (props: {navigation: any}) => {
   const {navigation} = props;
-
   const getDataUser = async () => {
     try {
       const value = await AsyncStorage.getItem('role');
       if (value !== null) {
         navigation.navigate('Shirt', {user: value});
+      } else {
+        navigation.navigate('SignIn');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataProfile = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        navigation.navigate('Profile', {user: value});
       } else {
         navigation.navigate('SignIn');
       }
@@ -30,6 +43,13 @@ const Home = (props: {navigation: any}) => {
         <Text style={styles.text3}>
           Make your design workflow easier and save your time
         </Text>
+      </View>
+      <View style={styles.btnProfile}>
+        <Button
+          title="PROFILE"
+          onPress={getDataProfile}
+          color={GetColors().MAIN}
+        />
       </View>
       <View style={styles.btnStarted}>
         <Button title="GET STARTED" onPress={getDataUser} />
@@ -67,6 +87,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   btnStarted: {
+    paddingHorizontal: 50,
+    paddingTop: 16,
+  },
+  btnProfile: {
     paddingHorizontal: 50,
     paddingTop: 46,
   },

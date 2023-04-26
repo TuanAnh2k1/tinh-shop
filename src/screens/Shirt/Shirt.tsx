@@ -173,7 +173,7 @@ const Shirt = (props: {navigation: any}) => {
                     describe={item.describe}
                     price={item.price}
                     arrowRight={require('../../assets/arrow-right.png')}
-                    image={require('../../assets/ao_phong.jpg')}
+                    image={item.image}
                     onPress={() => {
                       navigation.navigate('ShirtDetail', {
                         data: item,

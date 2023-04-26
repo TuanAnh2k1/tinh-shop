@@ -27,10 +27,17 @@ const ShirtDetail = (props: {navigation: any}) => {
       />
       <ScrollView style={styles.content}>
         <View style={styles.contentImage}>
-          <Image
-            source={require('../../../assets/ao_phong.jpg')}
-            style={styles.image}
-          />
+          {data.image === '1' ? (
+            <Image
+              source={require('../../../assets/ao_phong.jpg')}
+              style={styles.image}
+            />
+          ) : (
+            <Image
+              source={require('../../../assets/ao_somi.jpg')}
+              style={styles.image}
+            />
+          )}
         </View>
         <View style={styles.contentShirt}>
           <Text style={styles.name}>{data.name}</Text>
