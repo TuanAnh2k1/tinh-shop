@@ -15,6 +15,7 @@ const ShirtDetail = (props: {navigation: any}) => {
   const {navigation} = props;
   const data = props.route.params.data;
   const [quantity, setQuantity] = useState(1);
+  const totals = Number(data.total);
 
   return (
     <View style={styles.container}>
@@ -27,7 +28,7 @@ const ShirtDetail = (props: {navigation: any}) => {
       <ScrollView style={styles.content}>
         <View style={styles.contentImage}>
           <Image
-            source={require('../../../assets/login.jpg')}
+            source={require('../../../assets/ao_phong.jpg')}
             style={styles.image}
           />
         </View>
@@ -54,6 +55,14 @@ const ShirtDetail = (props: {navigation: any}) => {
               <Text style={styles.number}>+</Text>
             </Pressable>
           </View>
+        </View>
+        <View style={styles.contentTotal}>
+          <Text style={styles.total}>còn lại: {data.total}</Text>
+          {quantity > totals && (
+            <Text style={styles.errorTotal}>
+              Số lượng bạn chọn vượt quá hàng trong kho
+            </Text>
+          )}
         </View>
         <Text style={styles.describe}>{data.describe}</Text>
       </ScrollView>
@@ -126,6 +135,18 @@ const styles = StyleSheet.create({
   number: {
     fontSize: 22,
     color: GetColors().BLACK900,
+  },
+  contentTotal: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  total: {
+    color: GetColors().BLACK900,
+    flex: 1,
+  },
+  errorTotal: {
+    color: GetColors().RED500,
   },
   describe: {
     fontSize: 14,

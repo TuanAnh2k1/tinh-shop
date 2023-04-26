@@ -17,6 +17,7 @@ const AddShirt = (props: {navigation: any}) => {
   const [image, setImage] = useState('');
   const [price, setPrice] = useState('');
   const [supplier, setSupplier] = useState('');
+  const [total, setTotal] = useState('');
 
   const handleAddShirt = async () => {
     // Gửi thông tin đăng nhập đến API
@@ -33,6 +34,7 @@ const AddShirt = (props: {navigation: any}) => {
         image: image,
         price: price,
         supplier: supplier,
+        total: total,
       }),
     })
       .then(response => response.json())
@@ -121,6 +123,15 @@ const AddShirt = (props: {navigation: any}) => {
             placeholderTextColor="#000"
             onChangeText={(text: string) => setSupplier(text)}
             value={supplier}
+          />
+        </View>
+        <View style={styles.input}>
+          <TextInput
+            style={styles.inputContent}
+            placeholder="total"
+            placeholderTextColor="#000"
+            onChangeText={(text: string) => setTotal(text)}
+            value={total}
           />
         </View>
       </ScrollView>

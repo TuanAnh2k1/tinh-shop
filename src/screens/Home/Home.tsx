@@ -25,7 +25,7 @@ const Home = (props: {navigation: any}) => {
         source={require('../../assets/wellcome.jpg')}
       /> */}
       <View style={{flex: 1}}>
-        <Text style={styles.text1}>APP UI KIT</Text>
+        <Text style={styles.text1}>APP BÁN ÁO PHÔNG</Text>
         <Text style={styles.text2}>WELLCOME TO GEEZ APP</Text>
         <Text style={styles.text3}>
           Make your design workflow easier and save your time

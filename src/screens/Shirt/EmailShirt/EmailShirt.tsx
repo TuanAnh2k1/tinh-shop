@@ -61,6 +61,7 @@ const EmailShirt = (props: {navigation: any}) => {
           email: emailPush,
           phone: phone,
           address: address,
+          status: 0,
         }),
       })
         .then(response => response.json())
@@ -93,7 +94,7 @@ const EmailShirt = (props: {navigation: any}) => {
       <ScrollView style={styles.content}>
         <View style={styles.contentImage}>
           <Image
-            source={require('../../../assets/login.jpg')}
+            source={require('../../../assets/ao_phong.jpg')}
             style={styles.image}
           />
           <View style={styles.contentShirt}>
