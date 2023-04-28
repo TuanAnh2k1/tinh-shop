@@ -79,6 +79,9 @@ const Shirt = (props: {navigation: any}) => {
     const handleSearch = async () => {
       setLoading(true);
       setListShirt([]);
+      if (search === '') {
+        setSearch(' ');
+      }
       await fetch(
         'https://musicfivestar.onrender.com/shirt/getAllShirt/search',
         {
@@ -121,6 +124,7 @@ const Shirt = (props: {navigation: any}) => {
           title={'List Shirt'}
           style={{backgroundColor: GetColors().MAIN}}
           titleStyle={{color: GetColors().WHITE}}
+          onPressLeft={() => navigation.navigate('Home')}
         />
         <View style={styles.textInput}>
           <TextInput
@@ -177,6 +181,7 @@ const Shirt = (props: {navigation: any}) => {
                     onPress={() => {
                       navigation.navigate('ShirtDetail', {
                         data: item,
+                        dataUser: dataUser,
                       });
                     }}
                   />

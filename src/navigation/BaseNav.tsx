@@ -18,6 +18,7 @@ import Card from '../screens/Shirt/Card/Card';
 import Profile from '../screens/Profile/Profile';
 import UpdateProfile from '../screens/Profile/UpdateProfile';
 import CreateProfile from '../screens/Profile/CreateProfile';
+import ShirtUpdate from '../screens/Shirt/ShirtDetail/ShirtUpdate';
 
 const Stack = createStackNavigator();
 
@@ -68,6 +69,11 @@ function StackNavigator() {
         options={{headerShown: false}}
         name="AddShirt"
         component={AddShirt}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="UpdateShirt"
+        component={ShirtUpdate}
       />
       <Stack.Screen
         options={{headerShown: false}}

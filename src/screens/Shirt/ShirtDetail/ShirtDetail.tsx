@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   Button,
+  Alert,
 } from 'react-native';
 import {NavBar} from '../../../components';
 import GetColors from '../../../utils/CommonColors';
@@ -14,8 +15,39 @@ import GetColors from '../../../utils/CommonColors';
 const ShirtDetail = (props: {navigation: any}) => {
   const {navigation} = props;
   const data = props.route.params.data;
+  const dataUser = props.route.params.dataUser;
   const [quantity, setQuantity] = useState(1);
   const totals = Number(data.total);
+  const [loading, setLoading] = useState(Boolean);
+
+  const handleDelete = async () => {
+    setLoading(true);
+    await fetch('https://musicfivestar.onrender.com/shirt/deleteShirt', {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: data._id,
+      }),
+    })
+      .then(response => response.json())
+      .then(json => {
+        // Xử lý phản hồi từ API
+        if (json.message) {
+          // Update shirt thành công
+          setLoading(false);
+          navigation.navigate('Shirt', {loading: true});
+        } else {
+          // Update shirt thất bại
+          console.log(json.error);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -73,7 +105,44 @@ const ShirtDetail = (props: {navigation: any}) => {
         </View>
         <Text style={styles.describe}>{data.describe}</Text>
       </ScrollView>
-      <View style={styles.btnContent}>
+      {dataUser === 'admin' && (
+        <View style={styles.btnContent}>
+          <View style={styles.btnText}>
+            <Button
+              title="Xóa sản phẩm"
+              color={GetColors().RED500}
+              onPress={() => {
+                Alert.alert(
+                  'Xác nhận xóa sản phẩm',
+                  'Bạn có chắc muốn xóa sản phẩm này không?',
+                  [
+                    {
+                      text: 'Hủy',
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Xóa',
+                      onPress: () => handleDelete(),
+                    },
+                  ],
+                );
+              }}
+            />
+          </View>
+          <View style={styles.btnText}>
+            <Button
+              title="Cập nhật sản phẩm"
+              onPress={() => {
+                navigation.navigate('UpdateShirt', {
+                  data: data,
+                  dataUser: dataUser,
+                });
+              }}
+            />
+          </View>
+        </View>
+      )}
+      <View style={styles.btnSingle}>
         <Button
           title="Đặt hàng"
           color={GetColors().MAIN}
@@ -166,6 +235,15 @@ const styles = StyleSheet.create({
   btnContent: {
     paddingVertical: 8,
     paddingHorizontal: 8,
+    flexDirection: 'row',
+  },
+  btnSingle: {
+    paddingVertical: 8,
+    paddingHorizontal: 11,
+  },
+  btnText: {
+    flex: 1,
+    paddingHorizontal: 4,
   },
 });
 

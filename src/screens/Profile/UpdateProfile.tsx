@@ -32,7 +32,6 @@ const UpdateProfile = (props: {navigation: any}) => {
     setBirthday(profile.birthday);
     setEmail(profile.email);
     setGender(profile.gender);
-    setLoading(profile.gender);
     setLoading(false);
   }, [
     profile.address,
