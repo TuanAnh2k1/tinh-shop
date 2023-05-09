@@ -99,7 +99,7 @@ const Profile = (props: {navigation: any}) => {
                   </View>
                   <View style={styles.btnContent}>
                     <Button
-                      title="Sửa thông tin cá nhân"
+                      title="Sửa thông tin"
                       onPress={() => {
                         navigation.navigate('UpdateProfile', {
                           profile: profile,
@@ -127,7 +127,7 @@ const Profile = (props: {navigation: any}) => {
                   </View>
                   <View style={styles.btnContent}>
                     <Button
-                      title="Thêm mới thông tin cá nhân"
+                      title="Thêm mới Profile"
                       onPress={() => {
                         navigation.navigate('CreateProfile', {
                           profile: profile,

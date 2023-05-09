@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   Image,
@@ -30,8 +30,8 @@ const SignUpScreen = (props: {navigation: any}) => {
         role: role,
       }),
     })
-      .then((response) => response.json())
-      .then((json) => {
+      .then(response => response.json())
+      .then(json => {
         // Xử lý phản hồi từ API
         if (json.message) {
           // Tạo tài khoản thành công
@@ -42,13 +42,13 @@ const SignUpScreen = (props: {navigation: any}) => {
           console.log(json.error);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   };
   return (
     <View style={styles.container}>
-      <Image style={styles.imgLogin} source={require('../assets/signup.jpg')} />
+      <Image style={styles.imgLogin} source={require('../assets/nen02.jpg')} />
       <View style={styles.content}>
         <Text style={styles.textLogin}>SIGN UP</Text>
         <View style={styles.textInput}>

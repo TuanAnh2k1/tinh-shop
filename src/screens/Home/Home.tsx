@@ -33,10 +33,10 @@ const Home = (props: {navigation: any}) => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
+      <Image
         style={styles.imgWellcome}
-        source={require('../../assets/wellcome.jpg')}
-      /> */}
+        source={require('../../assets/nen04.jpg')}
+      />
       <View style={{flex: 1}}>
         <Text style={styles.text1}>APP BÁN ÁO PHÔNG</Text>
         <Text style={styles.text2}>WELLCOME TO GEEZ APP</Text>
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0e0b1e',
+    paddingBottom: 16,
   },
   imgWellcome: {
     flex: 2,
