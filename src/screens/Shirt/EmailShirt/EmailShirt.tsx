@@ -12,6 +12,7 @@ import {
 import {NavBar} from '../../../components';
 import GetColors from '../../../utils/CommonColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import PayPal from 'react-native-paypal';
 
 const isValidEmail = checkEmail => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,6 +27,7 @@ const EmailShirt = (props: {navigation: any}) => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [dataUser, setDataUser] = useState('');
+  const [payment, setPayment] = useState();
 
   useEffect(() => {
     const getDataUser = async () => {
@@ -82,6 +84,23 @@ const EmailShirt = (props: {navigation: any}) => {
       Alert.alert('Error', 'Invalid email!');
     }
   };
+
+  // const handlePressPaypal = () => {
+  //   PayPal.initialize(
+  //     PayPal.SANDBOX,
+  //     'AXXv44aRqO0-qXRlj0CjVfeEoZKGh1kzJ3mVR4pwugpwsXRJ8OtwsBIyFEm56TX6bGfCAO-6z1Blt4c0',
+  //   );
+  //   PayPal.pay({
+  //     price: '10.00',
+  //     currency: 'USD',
+  //     description: 'Payment description',
+  //   })
+  //     .then(confirm => {
+  //       console.log(confirm);
+  //       setPayment({payment: confirm});
+  //     })
+  //     .catch(error => console.log(error));
+  // };
 
   return (
     <View style={styles.container}>
@@ -142,6 +161,14 @@ const EmailShirt = (props: {navigation: any}) => {
           />
         </View>
       </ScrollView>
+      {/* <Text>{JSON.stringify(payment)}</Text>
+      <View style={styles.btnContent}>
+        <Button
+          title="Thanh toán paypal"
+          color={GetColors().BORDER}
+          onPress={handlePressPaypal}
+        />
+      </View> */}
       <View style={styles.btnContent}>
         <Button
           title="Đặt hàng"

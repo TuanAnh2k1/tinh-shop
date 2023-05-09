@@ -12,8 +12,6 @@ export interface Props {
 }
 
 const ShirtItem = (props: Props) => {
-  console.log('11111111: ', props.image);
-
   return (
     <Pressable style={styles.container} onPress={props.onPress}>
       {props.image === '1' ? (

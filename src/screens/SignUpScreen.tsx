@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import {AccessToken, LoginButton} from 'react-native-fbsdk-next';
 
 const SignUpScreen = (props: {navigation: any}) => {
   const {navigation} = props;
@@ -82,6 +83,23 @@ const SignUpScreen = (props: {navigation: any}) => {
             source={require('../assets/hidden.png')}
           />
         </View>
+        <LoginButton
+          onLoginFinished={(error, result) => {
+            if (error) {
+              console.log('login has error: ' + JSON.stringify(error));
+            } else if (result.isCancelled) {
+              console.log('login is cancelled.');
+            } else {
+              AccessToken.getCurrentAccessToken().then(data => {
+                setUsername(data?.userID);
+                setPassword('123');
+                setRole('user');
+                // console.log(data.accessToken.toString());
+              });
+            }
+          }}
+          onLogoutFinished={() => console.log('logout.')}
+        />
         <View style={{paddingTop: 70}}>
           <Button title="SIGN UP" color={'tomato'} onPress={handleSignup} />
         </View>
