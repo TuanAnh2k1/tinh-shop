@@ -7,6 +7,7 @@ import {
   TextInput,
   Image,
   Text,
+  FlatList,
 } from 'react-native';
 import {NavBar} from '../../components';
 import GetColors from '../../utils/CommonColors';
@@ -145,7 +146,7 @@ const Shirt = (props: {navigation: any}) => {
               onPress={() => {
                 navigation.navigate('AddShirt');
               }}>
-              <Text style={styles.addShirt}>+Add shirt</Text>
+              <Text style={styles.addShirt}>Thêm mới shirt</Text>
             </Pressable>
           )}
           <Pressable
@@ -167,28 +168,26 @@ const Shirt = (props: {navigation: any}) => {
         {loading ? (
           <Loading />
         ) : (
-          <ScrollView style={styles.listOptions}>
-            {listShirt?.map(item => {
-              return (
-                <>
-                  <ShirtItem
-                    key={`item${item}`}
-                    name={item.name}
-                    describe={item.describe}
-                    price={item.price}
-                    arrowRight={require('../../assets/arrow-right.png')}
-                    image={item.image}
-                    onPress={() => {
-                      navigation.navigate('ShirtDetail', {
-                        data: item,
-                        dataUser: dataUser,
-                      });
-                    }}
-                  />
-                </>
-              );
-            })}
-          </ScrollView>
+          <FlatList
+            data={listShirt}
+            renderItem={({item}) => (
+              <ShirtItem
+                name={item.name}
+                describe={item.describe}
+                price={item.price}
+                arrowRight={require('../../assets/arrow-right.png')}
+                image={item.image}
+                onPress={() => {
+                  navigation.navigate('ShirtDetail', {
+                    data: item,
+                    dataUser: dataUser,
+                  });
+                }}
+              />
+            )}
+            keyExtractor={item => item._id.toString()}
+            numColumns={2}
+          />
         )}
       </View>
     </View>

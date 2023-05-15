@@ -74,7 +74,7 @@ const AddShirt = (props: {navigation: any}) => {
         <View style={styles.input}>
           <TextInput
             style={styles.inputContent}
-            placeholder="name"
+            placeholder="Tên sản phẩm"
             placeholderTextColor="#000"
             onChangeText={(text: string) => setName(text)}
             value={name}
@@ -83,25 +83,16 @@ const AddShirt = (props: {navigation: any}) => {
         <View style={styles.input}>
           <TextInput
             style={styles.inputContent}
-            placeholder="describe"
+            placeholder="Mô tả"
             placeholderTextColor="#000"
             onChangeText={(text: string) => setDescribe(text)}
             value={describe}
           />
         </View>
-        {/* <View style={styles.input}>
-          {image && (
-            <Image
-              source={{uri: `data:${image.mime};base64,${image.data}`}}
-              style={styles.image}
-            />
-          )}
-          <Button title="Choose Image" onPress={chooseImage} />
-        </View> */}
         <View style={styles.input}>
           <TextInput
             style={styles.inputContent}
-            placeholder="link image"
+            placeholder="Link hình ảnh"
             placeholderTextColor="#000"
             onChangeText={(text: string) => setImage(text)}
             value={image}
@@ -110,7 +101,7 @@ const AddShirt = (props: {navigation: any}) => {
         <View style={styles.input}>
           <TextInput
             style={styles.inputContent}
-            placeholder="price"
+            placeholder="Giá"
             placeholderTextColor="#000"
             onChangeText={(text: string) => setPrice(text)}
             value={price}
@@ -119,7 +110,7 @@ const AddShirt = (props: {navigation: any}) => {
         <View style={styles.input}>
           <TextInput
             style={styles.inputContent}
-            placeholder="supplier"
+            placeholder="Nhà cung cấp"
             placeholderTextColor="#000"
             onChangeText={(text: string) => setSupplier(text)}
             value={supplier}
@@ -128,7 +119,7 @@ const AddShirt = (props: {navigation: any}) => {
         <View style={styles.input}>
           <TextInput
             style={styles.inputContent}
-            placeholder="total"
+            placeholder="Tổng số lượng"
             placeholderTextColor="#000"
             onChangeText={(text: string) => setTotal(text)}
             value={total}

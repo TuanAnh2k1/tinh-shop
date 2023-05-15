@@ -142,18 +142,20 @@ const ShirtDetail = (props: {navigation: any}) => {
           </View>
         </View>
       )}
-      <View style={styles.btnSingle}>
-        <Button
-          title="Đặt hàng"
-          color={GetColors().MAIN}
-          onPress={() => {
-            navigation.navigate('EmailShirt', {
-              data: data,
-              quantity: quantity,
-            });
-          }}
-        />
-      </View>
+      {dataUser !== 'admin' && (
+        <View style={styles.btnSingle}>
+          <Button
+            title="Đặt hàng"
+            color={GetColors().MAIN}
+            onPress={() => {
+              navigation.navigate('EmailShirt', {
+                data: data,
+                quantity: quantity,
+              });
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };

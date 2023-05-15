@@ -22,49 +22,35 @@ const ShirtItem = (props: Props) => {
       ) : (
         <Image source={require('../assets/ao_somi.jpg')} style={styles.image} />
       )}
-
-      <View style={styles.itemContainer}>
-        <Text style={styles.name}>{props.name}</Text>
-        <Text style={styles.describe}>{props.describe}</Text>
-      </View>
-      <Text style={styles.price}>{props.price}vnđ</Text>
-      <Image source={props.arrowRight} style={styles.imageLink} />
+      <Text style={styles.name}>{props.name}</Text>
+      <Text style={styles.price}>{props.price} vnđ</Text>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     backgroundColor: GetColors().WHITE,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginVertical: 8,
+    marginVertical: 2,
+    marginRight: 3,
     alignItems: 'center',
     borderRadius: 8,
     shadowColor: 'rgb(225, 225, 225)',
     shadowOpacity: 0.5,
     shadowOffset: {width: 0, height: 4},
-  },
-  itemContainer: {
-    flex: 1,
+    width: '50%',
+    paddingTop: 12,
   },
   image: {
-    width: 52,
-    height: 52,
-  },
-  imageLink: {
-    width: 24,
-    height: 24,
+    width: 140,
+    height: 140,
   },
   name: {
-    marginLeft: 16,
     fontSize: 16,
     lineHeight: 22,
     color: GetColors().TEXT_MAIN,
   },
   describe: {
-    marginLeft: 16,
     fontSize: 16,
     lineHeight: 22,
     color: GetColors().TEXT_MAIN,
@@ -73,9 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 22,
     color: GetColors().TEXT_MAIN,
-    borderLeftWidth: 1,
-    borderLeftColor: GetColors().BLACK900,
-    paddingLeft: 4,
+    paddingBottom: 8,
   },
 });
 

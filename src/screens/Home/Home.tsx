@@ -44,15 +44,17 @@ const Home = (props: {navigation: any}) => {
           Make your design workflow easier and save your time
         </Text>
       </View>
-      <View style={styles.btnProfile}>
-        <Button
-          title="PROFILE"
-          onPress={getDataProfile}
-          color={GetColors().MAIN}
-        />
-      </View>
-      <View style={styles.btnStarted}>
-        <Button title="GET STARTED" onPress={getDataUser} />
+      <View style={styles.footer}>
+        <View style={styles.btnProfile}>
+          <Button
+            title="PROFILE"
+            onPress={getDataProfile}
+            color={GetColors().MAIN}
+          />
+        </View>
+        <View style={styles.btnStarted}>
+          <Button title="GET STARTED" onPress={getDataUser} />
+        </View>
       </View>
     </View>
   );
@@ -87,13 +89,18 @@ const styles = StyleSheet.create({
     paddingRight: 45,
     fontSize: 16,
   },
-  btnStarted: {
+  footer: {
+    flexDirection: 'row',
     paddingHorizontal: 50,
     paddingTop: 16,
   },
+  btnStarted: {
+    flex: 1,
+    paddingHorizontal: 4,
+  },
   btnProfile: {
-    paddingHorizontal: 50,
-    paddingTop: 46,
+    flex: 1,
+    paddingHorizontal: 4,
   },
 });
 
