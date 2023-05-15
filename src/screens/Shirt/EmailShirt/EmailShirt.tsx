@@ -8,10 +8,12 @@ import {
   Button,
   TextInput,
   Alert,
+  Linking,
 } from 'react-native';
 import {NavBar} from '../../../components';
 import GetColors from '../../../utils/CommonColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import WebView from 'react-native-webview';
 // import PayPal from 'react-native-paypal';
 
 const isValidEmail = checkEmail => {
@@ -27,7 +29,13 @@ const EmailShirt = (props: {navigation: any}) => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [dataUser, setDataUser] = useState('');
-  const [payment, setPayment] = useState();
+  const [tenchuthe, setTenChuThe] = useState('NGUYEN VAN A');
+  const [kieuthe, setkieuthe] = useState('NCB');
+  const [sothe, setsothe] = useState('9704198526191432198');
+  const [socvd, setsocvd] = useState('NGUYEN VAN A');
+  const [ngayhethan, setngayhethan] = useState('07/15');
+  const [payment, setPayment] = useState('100000');
+  const [checkPayment, setCheckPayment] = useState(Boolean);
 
   useEffect(() => {
     const getDataUser = async () => {
@@ -85,22 +93,118 @@ const EmailShirt = (props: {navigation: any}) => {
     }
   };
 
-  // const handlePressPaypal = () => {
-  //   PayPal.initialize(
-  //     PayPal.SANDBOX,
-  //     'AXXv44aRqO0-qXRlj0CjVfeEoZKGh1kzJ3mVR4pwugpwsXRJ8OtwsBIyFEm56TX6bGfCAO-6z1Blt4c0',
-  //   );
-  //   PayPal.pay({
-  //     price: '10.00',
-  //     currency: 'USD',
-  //     description: 'Payment description',
-  //   })
-  //     .then(confirm => {
-  //       console.log(confirm);
-  //       setPayment({payment: confirm});
-  //     })
-  //     .catch(error => console.log(error));
-  // };
+  const VNPAY_ACCESS_KEY = 'your-access-key';
+  const VNPAY_BASE_URL = 'https://sandbox.vnpayment.vn';
+  const VNPAY_RETURN_URL = 'your-return-url';
+  const VNPAY_NOTIFY_URL = 'your-notify-url';
+
+  // Hàm tạo chuỗi checksum
+  function createChecksum(data) {
+    // TODO: Tạo chuỗi checksum theo định dạng của VNPAY
+  }
+
+  // Hàm tạo đối tượng yêu cầu thanh toán
+  function createPaymentRequest(orderInfo) {
+    const amount = orderInfo.amount;
+    const orderDescription = orderInfo.description;
+    const orderType = orderInfo.orderType;
+    const orderId = orderInfo.orderId;
+
+    const paymentUrl = `${VNPAY_BASE_URL}/paymentv2/vpcpay.html`;
+    const returnUrl = VNPAY_RETURN_URL;
+    const notifyUrl = VNPAY_NOTIFY_URL;
+    const tmnCode = VNPAY_ACCESS_KEY;
+
+    // Tạo chuỗi checksum
+    const checksum = createChecksum({
+      amount,
+      orderDescription,
+      orderType,
+      orderId,
+      paymentUrl,
+      returnUrl,
+      tmnCode,
+      notifyUrl,
+    });
+
+    // Tạo đối tượng yêu cầu thanh toán
+    const paymentRequest = {
+      vnp_Amount: amount,
+      vnp_Command: 'pay',
+      vnp_CreateDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
+      vnp_CurrCode: 'VND',
+      vnp_IpAddr: '',
+      vnp_Locale: 'vn',
+      vnp_OrderInfo: orderDescription,
+      vnp_OrderType: orderType,
+      vnp_ReturnUrl: returnUrl,
+      vnp_TmnCode: tmnCode,
+      vnp_TxnRef: orderId,
+      vnp_Version: '2.0.0',
+      vnp_SecureHashType: 'SHA256',
+      vnp_SecureHash: checksum,
+      vnp_Url: paymentUrl,
+    };
+
+    return paymentRequest;
+  }
+
+  // Hàm gửi yêu cầu thanh toán đến VNPAY
+  async function sendPaymentRequest(paymentRequest) {
+    const response = await axios.post(
+      `${VNPAY_BASE_URL}/paymentv2/vpcpay.html`,
+      paymentRequest,
+    );
+    return response.data;
+  }
+
+  const handleCard = async () => {
+    if (
+      tenchuthe === '' ||
+      kieuthe === '' ||
+      sothe === '' ||
+      socvd === '' ||
+      ngayhethan === ''
+    ) {
+      Alert.alert('Error', 'Vui lòng nhập đủ các thông tin!');
+    } else {
+      // Gửi thông tin đăng nhập đến API
+      await fetch('https://musicfivestar.onrender.com/card/createCard', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tenchuthe: tenchuthe,
+          kieuthe: kieuthe,
+          sothe: sothe,
+          socvd: socvd,
+          ngayhethan: ngayhethan,
+          sotienphaitra: payment,
+        }),
+      })
+        .then(response => response.json())
+        .then(json => {
+          // Xử lý phản hồi từ API
+          if (json.message) {
+            // Tạo tài khoản thành công
+          } else {
+            // Tạo tài khoản thất bại
+            console.log(json.error);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
+
+  const handlePressVnPay = () => {
+    Linking.openURL('https://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder');
+    handleCard();
+    setTimeout(() => setCheckPayment(true), 4000);
+  };
 
   return (
     <View style={styles.container}>
@@ -160,21 +264,27 @@ const EmailShirt = (props: {navigation: any}) => {
             value={address}
           />
         </View>
+        {checkPayment === true && (
+          <Text style={styles.quantityPrice}>
+            Số tiền phải thanh toán khi nhận hàng: 0vnđ
+          </Text>
+        )}
       </ScrollView>
-      {/* <Text>{JSON.stringify(payment)}</Text>
-      <View style={styles.btnContent}>
-        <Button
-          title="Thanh toán paypal"
-          color={GetColors().BORDER}
-          onPress={handlePressPaypal}
-        />
-      </View> */}
-      <View style={styles.btnContent}>
-        <Button
-          title="Đặt hàng"
-          color={GetColors().MAIN}
-          onPress={handlePress}
-        />
+      <View style={{flexDirection: 'row'}}>
+        <View style={styles.btnContent}>
+          <Button
+            title="Thanh toán VnPay"
+            color={'blue'}
+            onPress={handlePressVnPay}
+          />
+        </View>
+        <View style={styles.btnContent}>
+          <Button
+            title="Đặt hàng"
+            color={GetColors().MAIN}
+            onPress={handlePress}
+          />
+        </View>
       </View>
     </View>
   );
@@ -254,6 +364,7 @@ const styles = StyleSheet.create({
   btnContent: {
     paddingVertical: 8,
     paddingHorizontal: 8,
+    flex: 1,
   },
 });
 
